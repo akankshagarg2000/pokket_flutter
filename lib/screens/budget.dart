@@ -346,7 +346,7 @@ class _BudgetPageState extends State<BudgetPage> {
                     elevation: 5,
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
-                      'SUBMIT'
+                      'SUBMIT FINAL'
                     ))
               ],
             ),
