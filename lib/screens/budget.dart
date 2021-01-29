@@ -16,6 +16,7 @@ class _BudgetPageState extends State<BudgetPage> {
   @override
 
   DateTime _selectedDate;
+  String abc;
 
   @override
   void initState() {
@@ -336,11 +337,13 @@ class _BudgetPageState extends State<BudgetPage> {
 
 
                 RaisedButton(onPressed: (){
-                  // popup(context);
+                  popup(context);
+                  
                   Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Addtransaction(_selectedDate)),
+                        MaterialPageRoute(builder: (context) => Addtransaction(selectedDate: _selectedDate.toString(),)),
                       );
+                // print(_selectedDate.day+ "/" +_selectedDate.month*+"/"+ _selectedDate.year.toString());
                 },
                     color: Colors.redAccent[100],
                     elevation: 5,

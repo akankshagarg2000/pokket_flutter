@@ -87,7 +87,7 @@ class _DateSelectState extends State<DateSelect> {
                   onPressed: (){
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Addtransaction( _selectedDate))  //Navigation to view records
+                        MaterialPageRoute(builder: (context) => Addtransaction(selectedDate: _selectedDate.toString()))  //Navigation to view records
                     );
                   },
                 ),
@@ -104,7 +104,7 @@ class _DateSelectState extends State<DateSelect> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Addtransaction( _selectedDate)),   //Navigation to addTransaction screen
+              MaterialPageRoute(builder: (context) => Addtransaction(selectedDate:_selectedDate.toString())),   //Navigation to addTransaction screen
             );
           }
       ),

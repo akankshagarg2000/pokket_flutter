@@ -7,7 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 class Addtransaction extends StatefulWidget {
-  Addtransaction(_selectedDate, {Key key}) :super (key:key);     //constructor
+  final String selectedDate;
+  Addtransaction({this.selectedDate});     //constructor
 
   @override
   _AddtransactionState createState() => _AddtransactionState();
@@ -64,7 +65,7 @@ class _AddtransactionState extends State<Addtransaction> {
               height: 200.0,
               child: Center(
                   child: Text(
-                      'Selected date : $_selectedDate',
+                      'Selected date : '+widget.selectedDate,
                       style: TextStyle(
                           color: Colors.white,
                         fontSize: 20.0,
@@ -138,7 +139,8 @@ class _AddtransactionState extends State<Addtransaction> {
                 elevation: 5.0,
                 child: MaterialButton(
                   onPressed: () {
-                    popup(context);
+                    // popup(context);
+                    Navigator.of(context).pop("def");
                     //Implement login functionality.
                   },
                   minWidth: 200.0,
