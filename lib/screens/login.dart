@@ -145,6 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   hintStyle: TextStyle( color: Colors.black26),
                   fillColor: Colors.white,
                   filled: true,
+                  // errorText: _validate ? 'Value Can\'t Be Empty' : null,
                   contentPadding:
                   EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                   border: OutlineInputBorder(
@@ -202,6 +203,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 elevation: 5.0,
                 child: MaterialButton(
                   onPressed: (){
+                    
+
                     signIn();
                     print(_emailController.text);
                     print(_passwordController.text);
@@ -260,6 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       );
         }
         catch(e){
+          
           print(e.message);
         }
 

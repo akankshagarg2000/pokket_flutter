@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pokket_final/screens/login.dart';
 import 'package:pokket_final/screens/home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -9,6 +10,11 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  String _email, _username,_contact, _password ; // variables declared
+  TextEditingController _emailController= TextEditingController();
+  TextEditingController _passwordController= TextEditingController();
+  TextEditingController _usernameController= TextEditingController();
+  TextEditingController _contactController= TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +52,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
             Container(
               child: TextField(
+                controller: _emailController,
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -91,6 +98,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
             Container(
               child: TextField(
+                controller: _usernameController,
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -138,6 +146,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
             Container(
               child: TextField(
+                controller: _contactController,
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -185,6 +194,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
             Container(
               child: TextField(
+                controller: _passwordController,
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -237,10 +247,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 elevation: 5.0,
                 child: MaterialButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
-                    ); //Go to login screen.
+                    signUp();
+                    print(_emailController.text);
+                    print(_usernameController.text);
+                    print(_contactController.text);
+                    print(_passwordController.text);
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => HomeScreen()),
+                    // ); //Go to login screen.
                     //Implement registration functionality.
                   },
                   minWidth: 200.0,
@@ -292,6 +307,28 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       ),
     );
   }
+  Future<void> signUp() async {
+      // final formState = _formKey.currentState;
+      // if( formState.validate()){
+      //   formState.save();
+        try{
+         await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailController.text ,password:_passwordController.text);
+         
+        Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                      );
+        }
+        catch(e){
+          
+          print(e.message);
+        }
+
+    
+
+      
+
+    }
 
 
 }
