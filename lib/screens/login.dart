@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pokket_final/screens/register.dart';
 import 'package:pokket_final/screens/home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -9,6 +10,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+
+  String _email, _password ; // variables declared
+  TextEditingController _emailController= TextEditingController();
+  TextEditingController _passwordController= TextEditingController();
+  // final GlobalKey<FormState>_formKey = GlobalKey<FormState>();  //check why this line
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +65,13 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Container(
               child: TextField(
+                // validator: (input){
+                //   if(input.isEmpty){
+                //     return 'Enter your email';
+                //   }
+                // },
+                // onSaved:(input) => _email = input ,
+                controller: _emailController,
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -109,6 +124,14 @@ class _LoginScreenState extends State<LoginScreen> {
               // elevation: 25,
               // shadowColor: Colors.lightBlueAccent,
               child: TextField(
+                // validator: (input){
+                //   if(input.length<6){
+                //     return 'Your Password needs to be aleast 6 characters';
+                //   }
+                // },
+                obscureText: true,
+                // onSaved:(input) => _password = input ,
+                controller: _passwordController,
                 style: TextStyle(
                   color: Colors.black,
                 ),
@@ -178,13 +201,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 borderRadius: BorderRadius.all(Radius.circular(30.0)),
                 elevation: 5.0,
                 child: MaterialButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
-                    ); //Go to login screen.
-                    //Implement login functionality.
+                  onPressed: (){
+                    signIn();
+                    print(_emailController.text);
+                    print(_passwordController.text);
+                    
+
                   },
+                  //() {
+                  //   // Navigator.push(
+                  //   //   context,
+                  //   //   MaterialPageRoute(builder: (context) => HomeScreen()),
+                  //   // ); //Go to login screen.
+                  //   //Implement login functionality.
+                  // },
                   minWidth: 200.0,
                   height: 50.0,
                   child: Text(
@@ -217,5 +247,27 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-}
+    Future<void> signIn() async {
+      // final formState = _formKey.currentState;
+      // if( formState.validate()){
+      //   formState.save();
+        try{
+         await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text ,password:_passwordController.text).then((user){print(user.user.email);     });
+         
+        Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                      );
+        }
+        catch(e){
+          print(e.message);
+        }
+
+    
+
+      
+
+    }
+  }
+
 
