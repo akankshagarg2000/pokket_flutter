@@ -13,6 +13,15 @@ class _BookServiceState extends State<BookService> {
   @override
 
   DateTime _selectedDate;
+  final List<DateTime> _dateList= <DateTime>[];
+  final List<TimeRangeResult> _timeList =<TimeRangeResult>[];
+
+  void addItemtoList(){
+    setState(() {
+      _dateList.insert(0, _selectedDate);
+      _timeList.insert(0, _timeRange  );
+    });
+  }
 
   @override
   void initState() {
@@ -208,6 +217,7 @@ class _BookServiceState extends State<BookService> {
 
                 RaisedButton(onPressed: (){
                   popup(context);
+                  addItemtoList();
                 },
                     color: Colors.redAccent[100],
                     elevation: 5,
@@ -225,100 +235,47 @@ class _BookServiceState extends State<BookService> {
 
             Column(
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            stops: [0.0, 0.355, 0.864, 1.0],
-                            colors: <Color> [
-                              const Color(0xff3d4a62),
-                              const Color(0xff695369),
-                              // const Color(0xffa86073),
-                              const Color(0xffd16879),
-                              const Color(0xfaf16e7e)
-                            ],
-                          )
-                      ),
-                      height: 80,
-                      width: 400,
-
+                  Expanded(
+                    child: ListView.builder(
+                        padding: const EdgeInsets.all(8),
+                        itemCount: _dateList.length,
+                        itemBuilder: (BuildContext context, int index){
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              height: 100,
+                              width: 400,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  stops: [0.0, 0.355, 0.864, 1.0],
+                                  colors: <Color> [
+                                    const Color(0xff3d4a62),
+                                    const Color(0xff695369),
+                                    // const Color(0xffa86073),
+                                    const Color(0xffd16879),
+                                    const Color(0xfaf16e7e)
+                                  ],
+                                ),
+                              ),
+                              //height: 50,
+                              // margin: EdgeInsets.all(5),
+                              child: Center(
+                                  child:Text(
+                                    "DATE:  ${_dateList[index]}"  "\n"   "TIME:  ${_timeRange.start.format(context)} - ${_timeRange.end.format(context)}" ,
+                                    style:TextStyle(
+                                      fontSize:17,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                              ),
+                            ),
+                          );
+                        }
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            stops: [0.0, 0.355, 0.864, 1.0],
-                            colors: <Color> [
-                              const Color(0xff3d4a62),
-                              const Color(0xff695369),
-                              // const Color(0xffa86073),
-                              const Color(0xffd16879),
-                              const Color(0xfaf16e7e)
-                            ],
-                          )
-                      ),
-                      height: 80,
-                      width: 400,
-
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            stops: [0.0, 0.355, 0.864, 1.0],
-                            colors: <Color> [
-                              const Color(0xff3d4a62),
-                              const Color(0xff695369),
-                              // const Color(0xffa86073),
-                              const Color(0xffd16879),
-                              const Color(0xfaf16e7e)
-                            ],
-                          )
-                      ),
-                      height: 80,
-                      width: 400,
-
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            stops: [0.0, 0.355, 0.864, 1.0],
-                            colors: <Color> [
-                              const Color(0xff3d4a62),
-                              const Color(0xff695369),
-                              // const Color(0xffa86073),
-                              const Color(0xffd16879),
-                              const Color(0xfaf16e7e)
-                            ],
-                          )
-                      ),
-                      height: 80,
-                      width: 400,
-
-                    ),
-                  ),
-
-
+                  )
                 ]
             ),
           ],
@@ -330,3 +287,5 @@ class _BookServiceState extends State<BookService> {
 }
 
 
+//${_timeList[index].start.hour.toString() +":" +_timeList[index].start.minute.toString()+ " - " +
+//                                         _timeList[index].end.hour.toString() +":" +_timeList[index].end.minute.toString() }

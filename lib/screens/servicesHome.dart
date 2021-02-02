@@ -97,7 +97,10 @@ class _ChooseServiceState extends State<ChooseService> {
                 ),
                 child: RaisedButton(
                   onPressed: (){
-
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BookService()),   //Navigation to addTransaction screen
+                    );
                   },
                   color: Colors.grey[300],
                   textColor: Colors.black,
@@ -148,7 +151,10 @@ class _ChooseServiceState extends State<ChooseService> {
                 ),
                 child: RaisedButton(
                   onPressed: (){
-
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BookService()),   //Navigation to addTransaction screen
+                    );
                   },
                   color: Colors.grey[300],
                   textColor: Colors.black,
@@ -199,7 +205,10 @@ class _ChooseServiceState extends State<ChooseService> {
                 ),
                 child: RaisedButton(
                   onPressed: (){
-
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BookService()),   //Navigation to addTransaction screen
+                    );
                   },
                   color: Colors.grey[300],
                   textColor: Colors.black,

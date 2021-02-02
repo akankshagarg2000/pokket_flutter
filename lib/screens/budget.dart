@@ -16,7 +16,24 @@ class _BudgetPageState extends State<BudgetPage> {
   @override
 
   DateTime _selectedDate;
+  String _transactiontitle;
+  double _transactionamt;
+  double _balance;
+
   String abc;
+
+  final List<String> _transactionTitleList =<String>[];
+  final List<double> _transctionAmtList =<double>[];
+  final List<DateTime> _selecteddateList =<DateTime>[];
+
+
+  void addItemtoList(){
+    setState(() {
+      _selecteddateList.insert(0, _selectedDate);
+      _transactionTitleList.insert(0, _transactiontitle  );
+      _transctionAmtList.insert(0,_transactionamt);
+    });
+  }
 
   @override
   void initState() {
@@ -29,25 +46,211 @@ class _BudgetPageState extends State<BudgetPage> {
   }
 
 
-  static const orange = Color(0xFFFE9A75);
-  static const dark = Color(0xFF333A47);
-  static const double leftPadding = 50;
+  //Function for show ModalBottomSheet
+  void addTranscation(context){
+    showModalBottomSheet(
+        context: context,
+        elevation: 8.0,
+        builder: (BuildContext bc){
+          return Container(
+              color: Colors.white,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Container(
+                        //height: 200.0,
+                        child: Center(
+                            child: Text(
+                                'Selected date : $_selectedDate',
+                                style: TextStyle(
+                                  color: Colors.black87,
+                                  fontSize: 20.0,
+                                ))),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      TextField(
+                          onChanged: (value){
+                            //Do something with the user input.
+                            _transactiontitle = value;
+                          },
+                          decoration:InputDecoration(
+                            hintText: "Title",
+                            contentPadding:
+                            EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                              BorderSide(color: Colors.teal[200], width: 1.0),
+                              borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                              BorderSide(color: Colors.teal[200], width: 2.0),
+                              borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                            ),
+                          )
+                      ),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      TextField(
+                        onChanged:(value){
+                          //Do something with the user input.
+                          _transactionamt = value as double;
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Amount',
+                          contentPadding:
+                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                            BorderSide(color: Colors.teal[200], width: 1.0),
+                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                            BorderSide(color: Colors.teal[200], width: 2.0),
+                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                          ),
+                        ),
+                      ),
 
-  // final _defaultTimeRange = TimeRangeResult(
-  //   TimeOfDay(hour: 14, minute: 50),
-  //   TimeOfDay(hour: 15, minute: 20),
-  // );
-  // TimeRangeResult _timeRange;
+                      //Do something for categories wala part
 
-  // @override
-  // void initState1() {
-  //   super.initState();
-  //   _timeRange = _defaultTimeRange;
-  // }
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                        child: Material(
+                          color:Colors.teal[200],
+                          borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                          elevation: 5.0,
+                          child: MaterialButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              addItemtoList();
+                              setState(() {
+                                updateBudget(_balance = _balance - _transactionamt);
+                              });
+                            },
+                            minWidth: 200.0,
+                            height: 10.0,
+                            child: Text(
+                              'ADD',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ]
+                ),
+              )
+
+          );
+        });
+  }
+
+
+  //Change Budget
+  void updateBudget(context){
+    showModalBottomSheet(
+        context: context,
+        elevation: 8.0,
+        builder: (BuildContext bc){
+          return Container(
+              color: Colors.white,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Container(
+                        //height: 200.0,
+                        child: Center(
+                            child: Text(
+                                'Current Balance: $_balance',
+                                style: TextStyle(
+                                  color: Colors.black87,
+                                  fontSize: 20.0,
+                                ))),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      TextField(
+                          onChanged: (value){
+                            //Do something with the user input.
+                            setState(() {
+                              _balance = double.parse('$value');
+                            });
+                          },
+                          decoration:InputDecoration(
+                            hintText: "New Budget",
+                            contentPadding:
+                            EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                              BorderSide(color: Colors.teal[200], width: 1.0),
+                              borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                              BorderSide(color: Colors.teal[200], width: 2.0),
+                              borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                            ),
+                          )
+                      ),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                        child: Material(
+                          color:Colors.teal[200],
+                          borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                          elevation: 5.0,
+                          child: MaterialButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              setState(() {
+                                updateBudget(context);
+                              });
+                            },
+                            minWidth: 200.0,
+                            height: 10.0,
+                            child: Text(
+                              'ADD',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ]
+                ),
+              )
+
+          );
+        });
+  }
+
 
   void popup(BuildContext context){
     var alertDialog = AlertDialog(
-      title: Center(child: Text("Transacion added successfully!")),
+      title: Center(child: Text("Transaction added successfully!")),
     ) ;
     showDialog(
       context: context,
@@ -74,27 +277,7 @@ class _BudgetPageState extends State<BudgetPage> {
             ]
           ),
         ),
-  // @override
-  // Widget build(BuildContext context) {
-  //   return DefaultTabController(
-  //     length: 3,
-  //     child: Scaffold(
 
-
-  
-
-
-  //       backgroundColor: Colors.white,
-  //       appBar: AppBar(
-  //         backgroundColor: Color(0xfaf16e7e) ,
-  //         bottom: TabBar(
-  //           tabs: [
-  //             Tab(icon: Icon(Icons.account_balance_wallet)),
-  //             Tab(icon: Icon(Icons.calendar_today_rounded, )),
-  //             Tab(icon: Icon(Icons.history)),
-  //           ],
-  //         ),
-        
         
         body:
 
@@ -140,7 +323,7 @@ class _BudgetPageState extends State<BudgetPage> {
                               SizedBox(
                                 height: 4.0,
                               ),
-                              Text('Rs 90.0',
+                              Text('$_balance',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 22.0,
@@ -188,11 +371,19 @@ class _BudgetPageState extends State<BudgetPage> {
                 ),
                 Container(
                   child: Image.asset('images/undraw_pink.png',
-                      height: 300.0,
-                    width: 350.0,
+                      height: 200.0,
+                    width: 200.0,
                   ),
                 ),
-                
+
+                FloatingActionButton(onPressed:(){
+                  setState(() {
+                    updateBudget(context);
+                  });
+                },
+                  child: Icon(Icons.add),
+                  backgroundColor: Colors.redAccent,
+                )
                 
               ]
             ),
@@ -249,107 +440,23 @@ class _BudgetPageState extends State<BudgetPage> {
                        ),
                     ),
                     SizedBox(height: 5),
-                    Center(child: Text('Selected date is $_selectedDate',
+                    Center(child: Text('Selected date is $_selectedDate.format(context)',
                         style: TextStyle(color: Colors.white))),
                     SizedBox(height: 5),
 
                   ],
                 ),
 
-                //TIME PICKER
-                // Column(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: <Widget>[
-                //     Padding(
-                //       padding: const EdgeInsets.only(left: 10.0, top: 2),
-                //       // child: Text(
-                //       //   'Opening Times',
-                //       //   style: Theme.of(context)
-                //       //       .textTheme
-                //       //       .headline6
-                //       //       .copyWith(fontWeight: FontWeight.bold, color: dark),
-                //       // ),
-                //     ),
-                //     SizedBox(height: 10),
-                //     TimeRange(
-                //       fromTitle: Text(
-                //         'FROM',
-                //         style: TextStyle(
-                //           fontSize: 14,
-                //           color: dark,
-                //           fontWeight: FontWeight.w600,
-                //         ),
-                //       ),
-                //       toTitle: Text(
-                //         'TO',
-                //         style: TextStyle(
-                //           fontSize: 14,
-                //           color: dark,
-                //           fontWeight: FontWeight.w600,
-                //         ),
-                //       ),
-                //       titlePadding: leftPadding,
-                //       textStyle: TextStyle(
-                //         fontWeight: FontWeight.normal,
-                //         color: dark,
-                //       ),
-                //       activeTextStyle: TextStyle(
-                //         fontWeight: FontWeight.bold,
-                //         color: orange,
-                //       ),
-                //       borderColor: dark,
-                //       activeBorderColor: dark,
-                //       backgroundColor: Colors.transparent,
-                //       activeBackgroundColor: dark,
-                //       firstTime: TimeOfDay(hour: 8, minute: 00),
-                //       lastTime: TimeOfDay(hour: 20, minute: 00),
-                //       initialRange: _timeRange,
-                //       timeStep: 10,
-                //       timeBlock: 30,
-                //       onRangeCompleted: (range) => setState(() => _timeRange = range),
-                //     ),
-                //     SizedBox(height: 10),
-                //     if (_timeRange != null)
-                //       Padding(
-                //         padding: const EdgeInsets.only(top: 8.0, left: leftPadding),
-                //         child: Column(
-                //           crossAxisAlignment: CrossAxisAlignment.start,
-                //           children: <Widget>[
-                //             Text(
-                //               'Selected Range: ${_timeRange.start.format(context)} - ${_timeRange.end.format(context)}',
-                //               style: TextStyle(fontSize: 20, color: dark),
-                //             ),
-                //             SizedBox(height: 20),
-                //             // MaterialButton(
-                //             //   child: Text('Default'),
-                //             //   onPressed: () =>
-                //             //       setState(() => _timeRange = _defaultTimeRange),
-                //             //   color: orange,
-                //             // )
-                //           ],
-                //         ),
-                //       ),
-                //   ],
-                // ),
-
-
-                //SUBMIT BUTTON
-
 
                 RaisedButton(onPressed: (){
                   popup(context);
-                  
-                  Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Addtransaction(selectedDate: _selectedDate.toString(),)),
-                      );
-                // print(_selectedDate.day+ "/" +_selectedDate.month*+"/"+ _selectedDate.year.toString());
+                  addTranscation(context);
                 },
                     color: Colors.redAccent[100],
                     elevation: 5,
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
-                      'SUBMIT FINAL'
+                      'SUBMIT'
                     ))
               ],
             ),
@@ -363,100 +470,47 @@ class _BudgetPageState extends State<BudgetPage> {
 
               Column(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                        gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            stops: [0.0, 0.355, 0.864, 1.0],
-                            colors: <Color> [
-                              const Color(0xff3d4a62),
-                              const Color(0xff695369),
-                              // const Color(0xffa86073),
-                              const Color(0xffd16879),
-                              const Color(0xfaf16e7e)
-                            ],
-                            )
-                    ),
-                    height: 80,
-                    width: 400,
-                    
+                Expanded(
+                  child: ListView.builder(
+                      padding: const EdgeInsets.all(8),
+                      itemCount: _selecteddateList.length,
+                      itemBuilder: (BuildContext context, int index){
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: 100,
+                            width: 400,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                stops: [0.0, 0.355, 0.864, 1.0],
+                                colors: <Color> [
+                                  const Color(0xff3d4a62),
+                                  const Color(0xff695369),
+                                  // const Color(0xffa86073),
+                                  const Color(0xffd16879),
+                                  const Color(0xfaf16e7e)
+                                ],
+                              ),
+                            ),
+                            //height: 50,
+                            // margin: EdgeInsets.all(5),
+                            child: Center(
+                                child:Text(
+                                  "TITLE:  ${_transactionTitleList[index]}" "\n" "AMT:   ${_transctionAmtList[index]}" "\n" "ON:     ${_selecteddateList[index]}" ,
+                                  style:TextStyle(
+                                    fontSize:17,
+                                    color: Colors.white,
+                                  ),
+                                )
+                            ),
+                          ),
+                        );
+                      }
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                        gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            stops: [0.0, 0.355, 0.864, 1.0],
-                            colors: <Color> [
-                              const Color(0xff3d4a62),
-                              const Color(0xff695369),
-                              // const Color(0xffa86073),
-                              const Color(0xffd16879),
-                              const Color(0xfaf16e7e)
-                            ],
-                            )
-                    ),
-                    height: 80,
-                    width: 400,
-                    
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                        gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            stops: [0.0, 0.355, 0.864, 1.0],
-                            colors: <Color> [
-                              const Color(0xff3d4a62),
-                              const Color(0xff695369),
-                              // const Color(0xffa86073),
-                              const Color(0xffd16879),
-                              const Color(0xfaf16e7e)
-                            ],
-                            )
-                    ),
-                    height: 80,
-                    width: 400,
-                    
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                        gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            stops: [0.0, 0.355, 0.864, 1.0],
-                            colors: <Color> [
-                              const Color(0xff3d4a62),
-                              const Color(0xff695369),
-                              // const Color(0xffa86073),
-                              const Color(0xffd16879),
-                              const Color(0xfaf16e7e)
-                            ],
-                            )
-                    ),
-                    height: 80,
-                    width: 400,
-                    
-                  ),
-                ),
-                
-                
+                )
               ]
             ),
             
