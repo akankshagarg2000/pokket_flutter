@@ -20,7 +20,6 @@ class _BudgetPageState extends State<BudgetPage> {
   double _transactionamt;
   double _balance;
 
-  String abc;
 
   final List<String> _transactionTitleList =<String>[];
   final List<double> _transctionAmtList =<double>[];
@@ -141,7 +140,7 @@ class _BudgetPageState extends State<BudgetPage> {
                               Navigator.pop(context);
                               addItemtoList();
                               setState(() {
-                                updateBudget(_balance = _balance - _transactionamt);
+                               //updateBudget(_balance = _balance - _transactionamt);
                               });
                             },
                             minWidth: 200.0,

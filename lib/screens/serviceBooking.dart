@@ -264,7 +264,8 @@ class _BookServiceState extends State<BookService> {
                               // margin: EdgeInsets.all(5),
                               child: Center(
                                   child:Text(
-                                    "DATE:  ${_dateList[index]}"  "\n"   "TIME:  ${_timeRange.start.format(context)} - ${_timeRange.end.format(context)}" ,
+                                    "DATE:  ${_dateList[index]}"  "\n"   "TIME:  ${_timeList[index].start.hour.toString() +":" +_timeList[index].start.minute.toString()+ " - " +
+                                                                                    _timeList[index].end.hour.toString() +":" +_timeList[index].end.minute.toString()} " ,
                                     style:TextStyle(
                                       fontSize:17,
                                       color: Colors.white,

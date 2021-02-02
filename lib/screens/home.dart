@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokket_final/screens/billPayment/BillHome.dart';
 import 'dart:ui';
 import 'package:pokket_final/screens/budget.dart';
 import 'package:pokket_final/screens/servicesHome.dart';
@@ -50,6 +51,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: RaisedButton(
                     onPressed: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => BillHome()),
+                      );
                     },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50.0),
