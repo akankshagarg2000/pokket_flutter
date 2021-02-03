@@ -25,7 +25,7 @@ class Pokket extends StatelessWidget {
       //     body1: TextStyle(color: Colors.black54),
       //   ),
       // ),
-      home :  LoginScreen() ,
+      home :  WelcomeScreen() ,
     //   routes: {
     //     'welcome_screen': (context) => WelcomeScreen(),
     //     'login_screen': (context) => LoginScreen(),

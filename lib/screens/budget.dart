@@ -5,6 +5,11 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/services.dart';
 import 'package:pokket_final/screens/addTransaction.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
 class BudgetPage extends StatefulWidget {
 
   @override
@@ -19,6 +24,16 @@ class _BudgetPageState extends State<BudgetPage> {
   String _transactiontitle;
   double _transactionamt;
   double _balance;
+  String userid;
+   void getprefeb()async{
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+         var name = prefs.getString("name");
+         print(name);
+         setState(() {
+                      userid = prefs.getString("uuid");
+                  });
+    }
+
 
 
   final List<String> _transactionTitleList =<String>[];
@@ -37,6 +52,7 @@ class _BudgetPageState extends State<BudgetPage> {
   @override
   void initState() {
     super.initState();
+    getprefeb();
     _resetSelectedDate();
   }
 
@@ -191,6 +207,7 @@ class _BudgetPageState extends State<BudgetPage> {
                           onChanged: (value){
                             //Do something with the user input.
                             setState(() {
+                              
                               _balance = double.parse('$value');
                             });
                           },
@@ -225,10 +242,22 @@ class _BudgetPageState extends State<BudgetPage> {
                           elevation: 5.0,
                           child: MaterialButton(
                             onPressed: () {
+                              FirebaseFirestore.instance.collection("users").doc(userid).update({
+                             "budget": _balance,
+                             
+                      // "time": _timeRange,
+                      // "service_type": serviceType,
+                      // "uid": auth.user.uid
+                      
+                      
+                      
+
+                    });
+                    
                               Navigator.pop(context);
-                              setState(() {
-                                updateBudget(context);
-                              });
+                              // setState(() {
+                              //   updateBudget(context);
+                              // });
                             },
                             minWidth: 200.0,
                             height: 10.0,

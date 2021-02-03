@@ -7,6 +7,7 @@ class ChooseService extends StatefulWidget {
 }
 
 class _ChooseServiceState extends State<ChooseService> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +46,7 @@ class _ChooseServiceState extends State<ChooseService> {
                   onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => BookService()),   //Navigation to addTransaction screen
+                      MaterialPageRoute(builder: (context) => BookService(serviceType: "electritian",)),   //Navigation to addTransaction screen
                     );
                   },
                   color: Colors.grey[300],

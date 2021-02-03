@@ -1,10 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:time_range/time_range.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 class BookService extends StatefulWidget {
+final String serviceType;
+BookService({this.serviceType});
+
   @override
   _BookServiceState createState() => _BookServiceState();
 }
@@ -22,12 +28,9 @@ class _BookServiceState extends State<BookService> {
       _timeList.insert(0, _timeRange  );
     });
   }
+  
 
-  @override
-  void initState() {
-    super.initState();
-    _resetSelectedDate();
-  }
+
 
   void _resetSelectedDate() {
     _selectedDate = DateTime.now().add(Duration(days: 10));
@@ -44,9 +47,21 @@ class _BookServiceState extends State<BookService> {
   );
   TimeRangeResult _timeRange;
 
+  String userid;
+   void getprefeb()async{
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+         var name = prefs.getString("name");
+         print(name);
+         setState(() {
+                      userid = prefs.getString("uuid");
+                  });
+    }
+
   @override
-  void initState1() {
+  void initState() {
     super.initState();
+    getprefeb();
+     _resetSelectedDate();
     _timeRange = _defaultTimeRange;
   }
 
@@ -216,6 +231,16 @@ class _BookServiceState extends State<BookService> {
 
 
                 RaisedButton(onPressed: (){
+                  FirebaseFirestore.instance.collection("servicebooking").add({
+                      "date": "_selectedDate",
+                      "time": "_timeRange",
+                      "service_type": widget.serviceType,
+                      "uuid": userid,
+                      
+                      
+                      
+
+                    });
                   popup(context);
                   addItemtoList();
                 },
@@ -264,6 +289,7 @@ class _BookServiceState extends State<BookService> {
                               // margin: EdgeInsets.all(5),
                               child: Center(
                                   child:Text(
+                                    "${widget.serviceType} \n"
                                     "DATE:  ${_dateList[index]}"  "\n"   "TIME:  ${_timeList[index].start.hour.toString() +":" +_timeList[index].start.minute.toString()+ " - " +
                                                                                     _timeList[index].end.hour.toString() +":" +_timeList[index].end.minute.toString()} " ,
                                     style:TextStyle(

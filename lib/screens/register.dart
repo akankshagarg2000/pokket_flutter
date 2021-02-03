@@ -1,8 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pokket_final/screens/login.dart';
 import 'package:pokket_final/screens/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -247,7 +250,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 elevation: 5.0,
                 child: MaterialButton(
                   onPressed: () {
+                    
                     signUp();
+                    // getprefeb();
                     print(_emailController.text);
                     print(_usernameController.text);
                     print(_contactController.text);
@@ -290,13 +295,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       fontWeight: FontWeight.w600,
 
                     ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () async {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => LoginScreen()),
-                        );
-                      },
+                    // recognizer: TapGestureRecognizer()
+                    //   ..onTap =
+                      // (
+                        
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(builder: (context) => LoginScreen()),
+                      //   );
+                      
                   ),
                 ],
               ),
@@ -312,7 +319,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       // if( formState.validate()){
       //   formState.save();
         try{
-         await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailController.text ,password:_passwordController.text);
+         await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailController.text ,password:_passwordController.text).then((auth
+         ){
+          
+           FirebaseFirestore.instance.collection("users").doc(auth.user.uid).set({
+                      "name": _usernameController.text,
+                      "e_mail": _emailController.text,
+                      "phone": _contactController.text,
+                      "password": _passwordController.text,
+                      "uuid": auth.user.uid,
+                      "budget": 0.00
+
+                    });
+                    setprefeb(_usernameController.text, _emailController.text,  auth.user.uid , _contactController.text);
+
+         });
+
          
         Navigator.push(
                         context,
@@ -332,12 +354,31 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         catch(e){
           
           print(e.message);
+
         }
+        
 
     
 
       
 
+    }
+    void setprefeb(String name, String email, String uuid, String phone)async{
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString("name", name,);
+          prefs.setString("email", email,);
+          prefs.setString("uuid", uuid,);
+          prefs.setString("phone", phone,);
+          // .then((val){
+          //   print("shared preferences done"​​​​);
+          //    })​​​​
+             
+    }
+
+     void getprefeb()async{
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+         var name = prefs.getString("name");
+         print(name);
     }
 
 
