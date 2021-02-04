@@ -120,10 +120,10 @@ class _BudgetPageState extends State<BudgetPage> {
                       TextField(
                         onChanged:(value){
                           //Do something with the user input.
-                          // _transactionamt = value as double;
-                          final controller = double.parse(_transactionamtController.text);
-                          print("transaction is" + _transactionamtController.text);
-                          print("value is" + value);
+                          _transactionamt = value as double;
+                         
+                          // print("transaction is" + _transactionamtController.text);
+                          // print("value is" + value);
                         },
                         decoration: InputDecoration(
                           hintText: 'Amount',
