@@ -166,16 +166,11 @@ class _BudgetPageState extends State<BudgetPage> {
                       "title": _transactiontitle,
 
                       "remaining balance": (_balance-_transactionamt),
-                      
-
                       "uuid": userid,
-                      
-                      
-                      
-
                     });
                               Navigator.pop(context);
                               addItemtoList();
+                              _balance= _balance- _transactionamt;
                               
                             },
                             minWidth: 200.0,
