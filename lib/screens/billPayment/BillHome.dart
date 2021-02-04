@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokket_final/screens/billPayment/PayBill.dart';
 
 class BillHome extends StatefulWidget {
   @override
@@ -111,7 +112,12 @@ class ReusableCard extends StatelessWidget {
         ],
       ),
       child: RaisedButton(
-        onPressed: (){},
+        onPressed: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Payment()),
+          );
+        },
 
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),

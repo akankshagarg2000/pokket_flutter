@@ -120,7 +120,7 @@ class _BudgetPageState extends State<BudgetPage> {
                       TextField(
                         onChanged:(value){
                           //Do something with the user input.
-                          _transactionamt = value as double;
+                          _transactionamt = double.parse('$value');
                          
                           // print("transaction is" + _transactionamtController.text);
                           // print("value is" + value);
@@ -160,8 +160,8 @@ class _BudgetPageState extends State<BudgetPage> {
                             onPressed: () {
                               print(_transactionamt);
                               FirebaseFirestore.instance.collection("transation").add({
-                      "date": "_selectedDate",
-                      "Transaction_amount": _transactionamtController.text,
+                      "date": _selectedDate,
+                      "Transaction_amount": _transactionamt,
                       "transaction_date" : _selectedDate,
                       "title": _transactiontitle,
 
