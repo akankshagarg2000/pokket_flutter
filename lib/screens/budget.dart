@@ -25,6 +25,8 @@ class _BudgetPageState extends State<BudgetPage> {
   double _transactionamt;
   double _balance;
   String userid;
+  TextEditingController _transactionamtController= TextEditingController();
+
    void getprefeb()async{
           SharedPreferences prefs = await SharedPreferences.getInstance();
          var name = prefs.getString("name");
@@ -118,7 +120,10 @@ class _BudgetPageState extends State<BudgetPage> {
                       TextField(
                         onChanged:(value){
                           //Do something with the user input.
-                          _transactionamt = value as double;
+                          // _transactionamt = value as double;
+                          final controller = double.parse(_transactionamtController.text);
+                          print("transaction is" + _transactionamtController.text);
+                          print("value is" + value);
                         },
                         decoration: InputDecoration(
                           hintText: 'Amount',
@@ -153,11 +158,25 @@ class _BudgetPageState extends State<BudgetPage> {
                           elevation: 5.0,
                           child: MaterialButton(
                             onPressed: () {
+                              print(_transactionamt);
+                              FirebaseFirestore.instance.collection("transation").add({
+                      "date": "_selectedDate",
+                      "Transaction_amount": _transactionamtController.text,
+                      "transaction_date" : _selectedDate,
+                      "title": _transactiontitle,
+
+                      "remaining balance": (_balance-_transactionamt),
+                      
+
+                      "uuid": userid,
+                      
+                      
+                      
+
+                    });
                               Navigator.pop(context);
                               addItemtoList();
-                              setState(() {
-                               //updateBudget(_balance = _balance - _transactionamt);
-                              });
+                              
                             },
                             minWidth: 200.0,
                             height: 10.0,
